@@ -1,3 +1,4 @@
+import org.apache.xerces.util.SynchronizedSymbolTable;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -12,9 +13,73 @@ import java.util.concurrent.TimeUnit;
  */
 public class TestSel {
 
+    public static String getSearchURL(){
+        String searchUrl = "";
+
+        System.setProperty("webdriver.gecko.driver", "C:\\Users\\student.STEP\\Downloads\\Selenium\\geckodriver.exe");
+        WebDriver driver = new FirefoxDriver();
+        driver.manage().timeouts().pageLoadTimeout(30,TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(30,TimeUnit.SECONDS);
+        driver.get("https://www.amazon.com/");
+        WebElement findField = driver.findElement(By.id("twotabsearchtextbox"));
+        findField.sendKeys("toys");
+
+        try {
+            Thread.sleep(1000*5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            driver.quit();
+            getSearchURL();
+        }
+
+        WebElement searchBtnBlock = driver.findElement(By.id("nav-search-submit-text"));
+
+        searchBtnBlock.click();
+
+
+        try {
+            Thread.sleep(1000*5);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            driver.quit();
+            getSearchURL();
+        }
+        driver.getCurrentUrl();
+
+        WebElement nextPage = driver.findElement(By.id("pagnNextString"));
+        nextPage.click();
+
+
+        searchUrl = driver.getCurrentUrl();
+
+        try {
+            Thread.sleep(1000*15);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+            driver.quit();
+            getSearchURL();
+        }
+
+        System.out.printf(searchUrl);
+        driver.quit();
+        return searchUrl;
+
+    }
+
+
+
+
     public static void main(String[] args) throws InterruptedException{
 
-        System.setProperty("webdriver.gecko.driver", "C:\\Users\\student.STEP\\Selenium\\geckodriver.exe");
+    getSearchURL();
+
+
+
+
+
+
+
+        /*System.setProperty("webdriver.gecko.driver", "C:\\Users\\student.STEP\\Downloads\\Selenium\\geckodriver.exe");
         WebDriver driver = new FirefoxDriver();
         driver.get("https://www.amazon.com/");
         WebElement newAccountElement = driver.findElement(By.id("nav-flyout-ya-newCust"));
@@ -44,13 +109,12 @@ public class TestSel {
         regBtn.click();
 
         String logginedPageLink = driver.getCurrentUrl();
-
-        
-
-
-
         driver.quit();
+        */
+
 
     }
+
+
 
 }
